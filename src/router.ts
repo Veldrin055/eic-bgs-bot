@@ -1,5 +1,6 @@
-import * as discord from 'discord.js'
+import { Message } from 'discord.js'
+import commands from './commands'
 
-export default (message: discord.Message) => {
-  
+export default (message: Message, { command, commandArguments }: { command: string, commandArguments: string }) => {
+  commands.
 }
