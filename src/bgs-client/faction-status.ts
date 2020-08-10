@@ -1,10 +1,13 @@
 import client, { factionId } from './client'
 import { BgsApiResponse, FactionStatus } from './types'
 
-export default async () => {
+export default async (args: string) => {
+
+  const name = args.length ? args : 'east india company'
+
   try {
     const { data } = await client.get<BgsApiResponse<FactionStatus>>('/factions', {
-      params: { id: factionId }
+      params: { name }
     })
 
     if (!data.docs.length) {
@@ -16,4 +19,5 @@ export default async () => {
     console.error(err)
     throw new Error()
   }
+
 }
