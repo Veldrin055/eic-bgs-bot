@@ -1,6 +1,6 @@
 import * as _ from 'lodash'
 import { factionStatus, tick}  from '../bgs-client'
-import { capitalize, percentage, formatTick } from '../util'
+import { capitalize, percentage, formatTick, formatTrend, decorations } from '../util'
 import { Command } from './types'
 import { FactionPresense, State } from '../bgs-client/types'
 import { resolve } from '../ids'
@@ -9,22 +9,23 @@ const formatStates = (states: State[]) => {
   if (!states.length) {
     return 'None'
   }
-  // todo trends
 
-  return states.map(({ state }) => resolve('state', state)).join(', ')
+  return states.map(({ state, trend }) => `${resolve('state', state)}${formatTrend(trend)}`).join(', ')
 }
 
-
  export const fieldify = (system: FactionPresense, tickUpdate: string) => {
-  const name = capitalize(system.system_name)
+  const name = `${capitalize(system.system_name)} ${decorations(system).join('')}`
+  
 
-  const value = `\`\`\`State: ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ${resolve('state', system.state)}
+  const value = `\`\`\`yaml
+State: ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ${resolve('state', system.state)}
 Happiness: ​ ​ ​ ​ ​ ​ ​ ​ ​ ${resolve('happiness', system.happiness)}
 Influence: ​ ​ ​ ​ ​ ​ ​ ​ ​ ${percentage(system.influence)}%
 Active States: ​ ​ ​ ​ ​ ${formatStates(system.active_states)}
 Pending States: ​ ​ ​ ​ ${formatStates(system.pending_states)}
 Recovering States: ​ ${formatStates(system.recovering_states)}
-Last Updated:       ${formatTick(system.updated_at, tickUpdate)}\`\`\``
+Last Updated:       ${formatTick(system.updated_at, tickUpdate)}
+\`\`\``
 
   return { name, value }
 }

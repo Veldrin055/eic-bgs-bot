@@ -1,4 +1,4 @@
-import { capitalize } from '../util'
+import { capitalize, formatNumber, decorations } from '../util'
 import { Command } from './types'
 import { systemStatus, factionStatus, tick } from '../bgs-client'
 import { resolve } from '../ids'
@@ -16,8 +16,9 @@ export default {
     const embed = {
       color: 0x0099ff,
       title: `System Report - ${system.name}`,
-      description: `A ${capitalize(system.allegiance)} / ${capitalize(resolve('government', system.government))} system.
-      The primary economy is ${resolve('economy', system.primary_economy)} with a population of ${system.population}`,
+      description: `A ${resolve('superpower', system.allegiance)} / ${capitalize(resolve('government', system.government))} system.
+      The primary economy is ${resolve('economy', system.primary_economy)} with a population of ${formatNumber(system.population)}
+      The controlling faction is the **${system.controlling_minor_faction}**`,
       fields: [
         { name: 'Factions', value: 'One moment whilst I pull up the faction specifics...'}
       ]
@@ -37,12 +38,16 @@ export default {
   }
 } as Command
 
-const formatFactions = (factions: FactionStatus[], { name }: SystemStatus, tickUpdate: string) => factions.map(faction => {
+const formatFactions = (factions: FactionStatus[], { name, controlling_minor_faction }: SystemStatus, tickUpdate: string) => factions.map(faction => {
   const factionPresence = faction.faction_presence.find(({ system_name }) => system_name.toLowerCase() === name.toLowerCase()) 
-  const value = factionPresence ? fieldify(factionPresence, tickUpdate).value : 'Unable to retrieve system status'
+  const value = factionPresence ? fieldify(factionPresence, tickUpdate).value : 'Unable to retrieve faction status.'
+  const icons = [
+    faction.name.toLocaleLowerCase() === controlling_minor_faction.toLocaleLowerCase() ? '👑' : '',
+    ...decorations(factionPresence)
+  ]
 
   return {
-    name: faction.name,
+    name: `${faction.name.toLocaleLowerCase() === 'east india company' ? '🔷' : ''}${faction.name} ${icons.join('')}`,
     value,
   }
 })
