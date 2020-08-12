@@ -14,7 +14,7 @@ export type BgsApiResponse<T> = {
 export type FactionStatus = {
   _id: string
   name: string
-  updated_at: Date
+  updated_at: string
   government: string
   allegiance: string
   faction_presence: FactionPresense[]
@@ -42,7 +42,7 @@ export type FactionPresense = {
   pending_states: State[]
   recovering_states: State[]
   conflicts: Conflict[]
-  updated_at: Date
+  updated_at: string
 }
 
 export type SystemStatus = {
@@ -62,4 +62,10 @@ export type SystemStatus = {
   controlling_minor_faction: string
   updated_at: Date
   factions: { name: string }[]
+}
+
+export type Tick = {
+  _id: string
+  time: string
+  updated_at: string
 }

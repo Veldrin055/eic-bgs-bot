@@ -1,6 +1,6 @@
-import { capitalize, percentage } from '../util'
+import { capitalize } from '../util'
 import { Command } from './types'
-import { systemStatus, factionStatus } from '../bgs-client'
+import { systemStatus, factionStatus, tick } from '../bgs-client'
 import { resolve } from '../ids'
 import { FactionStatus, SystemStatus } from '../bgs-client/types'
 import { fieldify } from './faction-status'
@@ -26,21 +26,20 @@ export default {
     const message = await channel.send({ embed })
 
     const factions = await Promise.all(system.factions.map(({ name }) => factionStatus(name)))
-    const factionStatuses = formatFactions(factions, system).reduce((acc, faction) => {
-      return [
-        ...acc,
-        faction,
-        { name: '\u200B', value: '\u200B' },
-      ]
-    }, [] as { name: string, value: string }[])
+    const {updated_at: tickUpdate }= await tick()
+    const factionStatuses = formatFactions(factions, system, tickUpdate).reduce((acc, faction) => ([
+      ...acc,
+      faction,
+      { name: '\u200B', value: '\u200B' },
+    ]), [] as { name: string, value: string }[])
 
-    message.edit({embed: { ...embed, fields: factionStatuses.slice(0, -1) }})
+    message.edit({ embed: { ...embed, fields: factionStatuses.slice(0, -1) } })
   }
 } as Command
 
-const formatFactions = (factions: FactionStatus[], { name }: SystemStatus) => factions.map(faction => {
+const formatFactions = (factions: FactionStatus[], { name }: SystemStatus, tickUpdate: string) => factions.map(faction => {
   const factionPresence = faction.faction_presence.find(({ system_name }) => system_name.toLowerCase() === name.toLowerCase()) 
-  const value = factionPresence ? fieldify(factionPresence).value : 'Unable to retrieve system status'
+  const value = factionPresence ? fieldify(factionPresence, tickUpdate).value : 'Unable to retrieve system status'
 
   return {
     name: faction.name,

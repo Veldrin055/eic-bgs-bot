@@ -1,6 +1,6 @@
 import * as _ from 'lodash'
-import factionStatus from '../bgs-client/faction-status'
-import { capitalize, percentage } from '../util'
+import { factionStatus, tick}  from '../bgs-client'
+import { capitalize, percentage, formatTick } from '../util'
 import { Command } from './types'
 import { FactionPresense, State } from '../bgs-client/types'
 import { resolve } from '../ids'
@@ -15,7 +15,7 @@ const formatStates = (states: State[]) => {
 }
 
 
- export const fieldify = (system: FactionPresense) => {
+ export const fieldify = (system: FactionPresense, tickUpdate: string) => {
   const name = capitalize(system.system_name)
 
   const value = `\`\`\`State: ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ${resolve('state', system.state)}
@@ -23,7 +23,8 @@ Happiness: ​ ​ ​ ​ ​ ​ ​ ​ ​ ${resolve('happiness', system.hap
 Influence: ​ ​ ​ ​ ​ ​ ​ ​ ​ ${percentage(system.influence)}%
 Active States: ​ ​ ​ ​ ​ ${formatStates(system.active_states)}
 Pending States: ​ ​ ​ ​ ${formatStates(system.pending_states)}
-Recovering States: ​ ${formatStates(system.recovering_states)}\`\`\``
+Recovering States: ​ ${formatStates(system.recovering_states)}
+Last Updated:       ${formatTick(system.updated_at, tickUpdate)}\`\`\``
 
   return { name, value }
 }
@@ -35,11 +36,12 @@ export default {
 
   exec: async ({ channel }, args) => {
     const status = await factionStatus(args.join(' '))
+    const { updated_at: tickUpdate } = await tick()
   
     const systems = status.faction_presence.reduce((acc, system) => {
       return [
         ...acc,
-        fieldify(system),
+        fieldify(system, tickUpdate),
         { name: '\u200B', value: '\u200B' },
       ]
     }, [] as { name: string, value: string }[])
