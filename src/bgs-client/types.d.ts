@@ -43,7 +43,6 @@ export type FactionPresense = {
   recovering_states: State[]
   conflicts: Conflict[]
   updated_at: Date
-  system_id: string
 }
 
 export type SystemStatus = {

@@ -1,3 +1,4 @@
+import * as _ from 'lodash'
 import factionStatus from '../bgs-client/faction-status'
 import { capitalize, percentage } from '../util'
 import { Command } from './types'
@@ -10,21 +11,19 @@ const formatStates = (states: State[]) => {
   }
   // todo trends
 
-  return states.map(({ state }) => capitalize(state)).join(', ')
+  return states.map(({ state }) => resolve('state', state)).join(', ')
 }
 
 
-const fieldify = (system: FactionPresense) => {
+ export const fieldify = (system: FactionPresense) => {
   const name = capitalize(system.system_name)
-  const value = [
-    // todo last updated
-    { name: 'State', value: resolve('state', system.state) },
-    { name: 'Happiness', value: resolve('happiness', system.happiness) },
-    { name: 'Influence', value: `${percentage(system.influence)}%` },
-    { name: 'Active States', value: formatStates(system.active_states) },
-    { name: 'Pending States', value: formatStates(system.pending_states) },
-    { name: 'Recovering States', value: formatStates(system.recovering_states) },
-  ].map(({ name: n, value: v }) => `**${n}**: ${v}`).join('\n')
+
+  const value = `\`\`\`State: ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ${resolve('state', system.state)}
+Happiness: ​ ​ ​ ​ ​ ​ ​ ​ ​ ${resolve('happiness', system.happiness)}
+Influence: ​ ​ ​ ​ ​ ​ ​ ​ ​ ${percentage(system.influence)}%
+Active States: ​ ​ ​ ​ ​ ${formatStates(system.active_states)}
+Pending States: ​ ​ ​ ​ ${formatStates(system.pending_states)}
+Recovering States: ​ ${formatStates(system.recovering_states)}\`\`\``
 
   return { name, value }
 }
@@ -37,21 +36,25 @@ export default {
   exec: async ({ channel }, args) => {
     const status = await factionStatus(args.join(' '))
   
-    const fields = status.faction_presence.reduce((acc, system) => {
+    const systems = status.faction_presence.reduce((acc, system) => {
       return [
         ...acc,
         fieldify(system),
         { name: '\u200B', value: '\u200B' },
       ]
     }, [] as { name: string, value: string }[])
-  
-    const embed = {
-      color: 0x0099ff,
-      title: `Status Report - ${status.name}`,
-      description: `${capitalize(status.allegiance)} / ${capitalize(status.government)}`,
-      fields,
-    }
-  
-    channel.send({ embed })
+
+    _.chunk(systems, 24)
+      .map( async (fields, i) => {
+        const page = i > 0 ? ` Page ${i + 1}` : ''
+        const embed = {
+          color: 0x0099ff,
+          title: `Status Report - ${status.name}${page}`,
+          description: `${capitalize(status.allegiance)} / ${capitalize(status.government)}`,
+          fields: fields.slice(0, -1),
+        }
+      
+        await channel.send({ embed })  
+      })
   }
 } as Command

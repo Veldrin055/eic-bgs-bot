@@ -1,4 +1,4 @@
-import client, { factionId } from './client'
+import client from './client'
 import { BgsApiResponse, SystemStatus } from './types'
 
 export default async (args: string) => {
@@ -17,7 +17,7 @@ export default async (args: string) => {
     return data.docs[0]
   } catch (err) {
     console.error(err)
-    throw new Error()
+    throw new Error(`Awfully sorry Commander, I can't find a system named \`${name}\`. Is the spelling accurate?`)
   }
   
 }
