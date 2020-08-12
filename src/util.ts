@@ -6,6 +6,8 @@ export const capitalize = (s: any) => {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
+export const capitalizeWords = (s: string) => s.split(' ').map(capitalize).join(' ')
+
 export const percentage = (num: number) => Math.round(num * 1000) / 10
 
 export const formatNumber = (num: number) => num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')

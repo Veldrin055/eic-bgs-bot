@@ -1,4 +1,4 @@
-import { capitalize, formatNumber, decorations } from '../util'
+import { capitalize, formatNumber, decorations, capitalizeWords } from '../util'
 import { Command } from './types'
 import { systemStatus, factionStatus, tick } from '../bgs-client'
 import { resolve } from '../ids'
@@ -18,7 +18,7 @@ export default {
       title: `System Report - ${system.name}`,
       description: `A ${resolve('superpower', system.allegiance)} / ${capitalize(resolve('government', system.government))} system.
       The primary economy is ${resolve('economy', system.primary_economy)} with a population of ${formatNumber(system.population)}
-      The controlling faction is the **${system.controlling_minor_faction}**`,
+      The controlling faction is the **${capitalizeWords(system.controlling_minor_faction)}**`,
       fields: [
         { name: 'Factions', value: 'One moment whilst I pull up the faction specifics...'}
       ]
