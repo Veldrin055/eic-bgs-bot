@@ -16,7 +16,7 @@ const formatStates = (states: State[]) => {
  export const fieldify = (system: FactionPresense, tickUpdate: string) => {
   const name = `${capitalize(system.system_name)} ${decorations(system).join('')}`
   
-
+  // yaml formats nicely for how we want to present
   const value = `\`\`\`yaml
 State: ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ${resolve('state', system.state)}
 Happiness: ​ ​ ​ ​ ​ ​ ​ ​ ​ ${resolve('happiness', system.happiness)}
