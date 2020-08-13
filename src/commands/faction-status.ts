@@ -3,7 +3,7 @@ import { factionStatus, tick}  from '../bgs-client'
 import { capitalize, percentage, formatTick, formatTrend, decorations } from '../util'
 import { Command } from './types'
 import { FactionPresense, State } from '../bgs-client/types'
-import { resolve } from '../ids'
+import { resolve } from '../data/ids'
 
 const formatStates = (states: State[]) => {
   if (!states.length) {

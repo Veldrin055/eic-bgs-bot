@@ -1,7 +1,7 @@
 import { capitalize, formatNumber, decorations, capitalizeWords } from '../util'
 import { Command } from './types'
 import { systemStatus, factionStatus, tick } from '../bgs-client'
-import { resolve } from '../ids'
+import { resolve } from '../data/ids'
 import { FactionStatus, SystemStatus } from '../bgs-client/types'
 import { fieldify } from './faction-status'
 

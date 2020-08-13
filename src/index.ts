@@ -1,15 +1,16 @@
 import * as discord from 'discord.js'
-import config from './config.json'
 import messageRouter from './router'
-import { init } from './ids'
+import { init } from './data/ids'
+import config, { loadConfig } from './config'
+
+loadConfig()
+init()
 
 const bot = new discord.Client()
 
 bot.once('ready', () => console.log('Ready for service, Commander.'))
 
-init()
-
-bot.login(config.token).catch(err => {
+bot.login(config().token).catch(err => {
   console.error('Critical issue starting Discord bot', err)
   process.exit(1)
 })
