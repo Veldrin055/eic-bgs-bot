@@ -24,7 +24,7 @@ Create a file `config.json` in the project root. It should have the following in
 ```
 
 ## Creating a Discord bot
-Follow the instructions on [https://discord.com/developers/applications] to create a bot. You'll use its token to in the config file to connect the app to your bot.
+Follow the instructions on https://discord.com/developers/applications to create a bot. You'll use its token to in the config file to connect the app to your bot.
 
 ## How do I use the bot?
 Add it to a channel. You can see its commands via `@BGS Bot help`

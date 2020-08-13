@@ -32,12 +32,31 @@ export const formatTrend = (trend?: number) =>{
   return ' ↔️';
 }
 
-export const decorations = (factionPresence?: FactionPresense) => [
-  factionPresence?.active_states?.some(({ state }) => state === 'war') ? '⚔️': '',
-  factionPresence?.active_states?.some(({ state }) => state === 'civilwar') ? '⚔️': '',
-  factionPresence?.active_states?.some(({ state }) => state === 'election') ? '🗳️': '',
-  factionPresence?.active_states?.some(({ state }) => state === 'boom') ? '📈': '',
-  factionPresence?.active_states?.some(({ state }) => state === 'bust') ? '📉': '',
-  factionPresence?.active_states?.some(({ state }) => state === 'outbreak') ? '☣️': '',
-  factionPresence?.active_states?.some(({ state }) => state === 'pirateattack') ? '🏴‍☠️': '',
-]
+export const decorations = (factionPresence?: FactionPresense) => {
+  if (!factionPresence) return []
+
+  const { active_states } = factionPresence
+
+  return [
+    active_states.some(({ state }) => state === 'war') ? '⚔️': '',
+    active_states.some(({ state }) => state === 'civilwar') ? '⚔️': '',
+    active_states.some(({ state }) => state === 'election') ? '🗳️': '',
+    active_states.some(({ state }) => state === 'boom') ? '📈': '',
+    active_states.some(({ state }) => state === 'bust') ? '📉': '',
+    active_states.some(({ state }) => state === 'outbreak') ? '☣️': '',
+    active_states.some(({ state }) => state === 'pirateattack') ? '🏴‍☠️': '',
+    active_states.some(({ state }) => state === 'civilunrest') ? '✊': '',
+    active_states.some(({ state }) => state === 'civilliberty') ? '🗽': '',
+    active_states.some(({ state }) => state === 'expansion') ? '🚀': '',
+    active_states.some(({ state }) => state === 'famine') ? '🍽️': '',
+    active_states.some(({ state }) => state === 'investment') ? '💰': '',
+    active_states.some(({ state }) => state === 'lockdown') ? '👮‍♀️': '',
+    active_states.some(({ state }) => state === 'retreat') ? '🔙': '',
+    active_states.some(({ state }) => state === 'blight') ? '💀': '',
+    active_states.some(({ state }) => state === 'drought') ? '🏜️': '',
+    active_states.some(({ state }) => state === 'infrastructurefailure') ? '🚧': '',
+    active_states.some(({ state }) => state === 'naturaldisaster') ? '🌋': '',
+    active_states.some(({ state }) => state === 'publicholiday') ? '🎆': '',
+    active_states.some(({ state }) => state === 'terrorism') ? '💣': '',
+  ]
+}
