@@ -1,4 +1,4 @@
-import { Message, Channel } from 'discord.js'
+import { Message } from 'discord.js'
 import commands from './commands'
 
 export default async (message: Message, { command, commandArguments }: { command: string, commandArguments: string[] }) => {

@@ -1,5 +1,5 @@
 import * as discord from 'discord.js'
-import messageRouter from './router'
+import routeMessage from './router'
 import { init } from './data/ids'
 import config, { loadConfig } from './config'
 
@@ -17,13 +17,14 @@ bot.login(config().token).catch(err => {
   
 bot.on('message', async (message) => {
   if (message.mentions.users.some(({ id }) => id === bot.user?.id)) {
-    messageRouter(message, getCommandArguments(message))  
+    routeMessage(message, getCommand(message))  
   }
 })
 
-const getCommandArguments = (message: discord.Message) => {
+const getCommand = (message: discord.Message) => {
   const messageString = message.content.replace(new RegExp(`<@!?${bot.user?.id}>`), "").trim()
   const messageArray = messageString.split(" ")
+  
   const command = messageArray[0].toLowerCase()
   const commandArguments = messageArray.length > 1 ? messageArray.slice(1, messageArray.length): []
 
