@@ -1,9 +1,11 @@
 import client from './client'
 import { BgsApiResponse, FactionStatus } from './types'
 
+import config from '../config'
+
 export default async (args: string) => {
 
-  const name = args.length ? args : 'east india company'
+  const name = args.length ? args : config().defaultFaction
 
   try {
     const { data } = await client.get<BgsApiResponse<FactionStatus>>('/factions', {

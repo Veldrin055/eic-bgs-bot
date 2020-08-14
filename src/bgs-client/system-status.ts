@@ -1,9 +1,10 @@
 import client from './client'
 import { BgsApiResponse, SystemStatus } from './types'
+import config from '../config'
 
 export default async (args: string) => {
 
-  const name = args.length ? args : 'LTT 1349'
+  const name = args.length ? args : config().defaultSystem
 
   try {
     const { data } = await client.get<BgsApiResponse<SystemStatus>>('/systems', {

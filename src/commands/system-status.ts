@@ -4,6 +4,7 @@ import { systemStatus, factionStatus, tick } from '../bgs-client'
 import { resolve } from '../data/ids'
 import { FactionStatus, SystemStatus } from '../bgs-client/types'
 import { fieldify } from './faction-status'
+import config from '../config'
 
 export default {
   name: 'system',
@@ -20,7 +21,7 @@ export default {
       The primary economy is ${resolve('economy', system.primary_economy)} with a population of ${formatNumber(system.population)}
       The controlling faction is the **${capitalizeWords(system.controlling_minor_faction)}**`,
       fields: [
-        { name: 'Factions', value: 'One moment whilst I pull up the faction specifics...'}
+        { name: 'Factions', value: 'One moment whilst I pull up the local faction specifics...'}
       ]
     }
     
@@ -34,7 +35,7 @@ export default {
       { name: '\u200B', value: '\u200B' },
     ]), [] as { name: string, value: string }[])
 
-    message.edit({ embed: { ...embed, fields: factionStatuses.slice(0, -1) } })
+    message.edit({ embed: { ...embed, fields: [{ name: 'Factions:', value: '\u200B'}, ...factionStatuses.slice(0, -1)] } })
   }
 } as Command
 
@@ -47,7 +48,7 @@ const formatFactions = (factions: FactionStatus[], { name, controlling_minor_fac
   ]
 
   return {
-    name: `${faction.name.toLocaleLowerCase() === 'east india company' ? '🔷' : ''}${faction.name} ${icons.join('')}`,
+    name: `${faction.name.toLocaleLowerCase() === config().defaultFaction ? '🔷 ' : ''}${faction.name} ${icons.join('')}`,
     value,
   }
-})
+}) 
