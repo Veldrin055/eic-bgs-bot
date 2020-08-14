@@ -10,6 +10,13 @@ const bot = new discord.Client()
 
 bot.once('ready', () => console.log('Ready for service, Commander.'))
 
+const token = config().token
+
+if (!token) {
+  console.error('Missing Discord bot token. Did you forget to add it to config.json?')
+  process.exit(1)
+}
+
 bot.login(config().token).catch(err => {
   console.error('Critical issue starting Discord bot', err)
   process.exit(1)
