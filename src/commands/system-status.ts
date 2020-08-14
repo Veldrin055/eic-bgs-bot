@@ -35,7 +35,7 @@ export default {
       { name: '\u200B', value: '\u200B' },
     ]), [] as { name: string, value: string }[])
 
-    message.edit({ embed: { ...embed, fields: [{ name: 'Factions:', value: '\u200B'}, ...factionStatuses.slice(0, -1)] } })
+    await message.edit({ embed: { ...embed, fields: [{ name: 'Factions:', value: '\u200B'}, ...factionStatuses.slice(0, -1)] } })
   }
 } as Command
 

@@ -4,7 +4,7 @@ import { init } from './data/ids'
 import config, { loadConfig } from './config'
 
 loadConfig()
-init()
+init().catch(err => console.error('Failed to retrieve in game IDs', err))
 
 const bot = new discord.Client()
 

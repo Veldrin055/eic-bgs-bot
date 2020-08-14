@@ -1,4 +1,4 @@
-export type IngameIds = { [key: string ]: { 
+export type IngameIds = { [key: string ]: {
     [key: string]: { name: string }
   } 
 }
