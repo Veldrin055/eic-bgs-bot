@@ -17,6 +17,7 @@ export default async (message: Message, { command, commandArguments }: { command
     } catch(err) {
       if (err instanceof NotFoundError) {
         message.channel.send(`Awfully sorry Commander, I can't find a ${command} named ${commandArguments.join(' ')}`)
+        return
       }
       console.error(`Command ${command} failed.`, err)
       await message.channel.send("I'm terribly sorry Commander, something went awry whilst servicing your request.")
