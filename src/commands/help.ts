@@ -10,7 +10,8 @@ export default {
 
     await message.channel.send(
       `👋 Hello there ${message.author.username}. I'm here to help advise on the state of the BGS in EIC space.
-I have the following commands available for your use:    
+I have the following commands available for your use:
+    
 ${helpTexts.join('\n\n')}`)
   },
 
