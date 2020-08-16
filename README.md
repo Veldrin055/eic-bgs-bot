@@ -2,14 +2,11 @@
 A BGS information Discord bot for the EIC
 
 ## Installing
-Just `git clone` this repo.
-
-```bash
-npm i
-npm run build
-# Config as outlined below
-npm start
-```
+1. `git clone https://github.com/Veldrin055/eic-bgs-bot`
+1. `cd eic-bgs-bot`
+1. `npm i`
+1. Create `config.json` as outlined below
+1. `npm start`
 
 ## Config
 
