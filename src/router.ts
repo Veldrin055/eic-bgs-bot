@@ -7,17 +7,16 @@ export default async (message: Message, { command, commandArguments }: { command
   const cmd = commands.find(({ name }) => name === command)
 
   const { channel } = message
-  await channel.startTyping()
 
   if (cmd) {
 
     try {
-
+      channel.startTyping()
       await cmd.exec(message, commandArguments)
 
     } catch(err) {
       if (err instanceof NotFoundError) {
-        return message.channel.send(`Awfully sorry Commander, I can't find a ${command} named ${commandArguments.join(' ')}`)
+        message.channel.send(`Awfully sorry Commander, I can't find a ${command} named ${commandArguments.join(' ')}`)
       }
       console.error(`Command ${command} failed.`, err)
       await message.channel.send("I'm terribly sorry Commander, something went awry whilst servicing your request.")
@@ -26,7 +25,7 @@ export default async (message: Message, { command, commandArguments }: { command
     }
 
   } else {
-    return message.channel.send("I'm afraid I don't understand that Commander. Do you need some `help`?")
+    message.channel.send("I'm afraid I don't understand that Commander. Do you need some `help`?")
   }
 
 }

@@ -22,9 +22,9 @@ bot.login(config().token).catch(err => {
   process.exit(1)
 })
   
-bot.on('message', async (message) => {
+bot.on('message',  (message) => {
   if (message.mentions.users.some(({ id }) => id === bot.user?.id)) {
-    routeMessage(message, getCommand(message))  
+    routeMessage(message, getCommand(message)).catch(console.error)
   }
 })
 
