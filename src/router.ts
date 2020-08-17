@@ -19,6 +19,10 @@ export default async (message: Message, { command, commandArguments }: { command
         message.channel.send(`Awfully sorry Commander, I can't find a ${command} named ${commandArguments.join(' ')}`)
         return
       }
+      if (err.code === 'ECONNABORTED') {
+        await message.channel.send('It appears our friends on the API side are taking longer to respond than usual. Perhaps try again later.')
+        return
+      }
       console.error(`Command ${command} failed.`, err)
       await message.channel.send("I'm terribly sorry Commander, something went awry whilst servicing your request.")
     } finally {
