@@ -28,7 +28,7 @@ export default {
     const message = await channel.send({ embed })
 
     const factions = await Promise.all(system.factions.map(({ name }) => factionStatus(name)))
-    const {updated_at: tickUpdate }= await tick()
+    const { updated_at: tickUpdate } = await tick()
     const factionStatuses = formatFactions(factions, system, tickUpdate).reduce((acc, faction) => ([
       ...acc,
       faction,
