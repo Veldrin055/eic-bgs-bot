@@ -48,7 +48,7 @@ const formatFactions = (factions: FactionStatus[], { name, controlling_minor_fac
   ]
 
   return {
-    name: `${faction.name.toLocaleLowerCase() === config().defaultFaction ? '🔷 ' : ''}${faction.name} ${icons.join('')}`,
+    name: `${faction.name.toLocaleLowerCase() === config().defaultFaction.toLocaleLowerCase() ? '🔷 ' : ''}${faction.name} ${icons.join('')}`,
     value,
   }
 }) 
